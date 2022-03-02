@@ -10,30 +10,34 @@ function App() {
             Street address
           </label>
           <input
-            type="email"
-            className="form-control"
+            className="form-control is-valid"
             placeholder="Street name"
+            maxLength="30"
             id="inputStreet"
+            required
           />
+          <div className="valid-feedback d-block">Valid street name!</div>
         </div>
         <div className="col-6 col-md-3">
           <label forhtml="inputNumber" className="form-label">
             House number
           </label>
           <input
-            type="password"
-            className="form-control"
+            className="form-control is-invalid"
             placeholder="11"
+            maxLength="5"
             id="inputNumber"
+            required
           />
+          <div className="invalid-feedback d-block">Please enter a number.</div>
         </div>
         <div className="col-6 col-md-3">
           <label forhtml="inputNumberAddition" className="form-label">
             Apt, suite, etc
           </label>
           <input
-            type="password"
             className="form-control"
+            maxLength="5"
             id="inputNumberAddition"
           />
         </div>
@@ -42,10 +46,11 @@ function App() {
             City
           </label>
           <input
-            type="text"
             className="form-control"
             placeholder="City name"
+            maxLength="30"
             id="inputCity"
+            required
           />
         </div>
         <div className="col-md-3">
@@ -53,10 +58,10 @@ function App() {
             Zip
           </label>
           <input
-            type="text"
             className="form-control"
             placeholder="1000 AB"
             id="inputZip"
+            required
           />
         </div>
         <div className="mb-3">
@@ -65,8 +70,9 @@ function App() {
           </label>
           <textarea
             className="form-control"
+            rows="2"
+            maxLength="50"
             id="inputAdditional"
-            rows="3"
           ></textarea>
         </div>
         <div className="col-12">
