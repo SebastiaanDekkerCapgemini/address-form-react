@@ -65,6 +65,7 @@ function App() {
             className="form-control"
             maxLength="5"
             id="inputNumberAddition"
+            onKeyPress={alphaNumericOnly}
           />
         </div>
         <div className="col-md-6">
@@ -76,6 +77,7 @@ function App() {
             placeholder="City name"
             maxLength="30"
             id="inputCity"
+            onKeyPress={alphaNumericOnly}
             required
           />
         </div>
@@ -102,6 +104,7 @@ function App() {
             rows="2"
             maxLength="50"
             id="inputAdditional"
+            onKeyPress={alphaNumericOnly}
           ></textarea>
         </div>
         <div className="col-12">
