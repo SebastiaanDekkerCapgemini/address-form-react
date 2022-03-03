@@ -33,7 +33,10 @@ function App() {
         </div>
         <div className="col-6 col-md-3">
           <label forhtml="inputNumberAddition" className="form-label">
-            Apt, suite, etc
+            Apt, suite
+            <small className="ms-1 text-secondary">
+              <em>(optional)</em>
+            </small>
           </label>
           <input
             className="form-control"
@@ -67,6 +70,9 @@ function App() {
         <div className="mb-3">
           <label forhtml="inputAdditional" className="form-label">
             Additional information
+            <small className="ms-1 text-secondary">
+              <em>(optional)</em>
+            </small>
           </label>
           <textarea
             className="form-control"
