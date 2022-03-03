@@ -1,9 +1,20 @@
 function App() {
-  const maxLengthFive = (event) => {
+  const maxLength = (event) => {
     event.target.value = event.target.value.slice(
       0,
       event.target.dataset.maxlength
     )
+  }
+  const alphaNumericOnly = (event) => {
+    const requiredRegex = new RegExp('^[a-zA-Z0-9]+$')
+    var str = String.fromCharCode(
+      !event.charCode ? event.which : event.charCode
+    )
+    if (requiredRegex.test(str)) {
+      return true
+    }
+    event.preventDefault()
+    return false
   }
   return (
     <div className="container-md border bg-light p-3 mt-5">
@@ -21,6 +32,7 @@ function App() {
             pattern="[a-zA-Z0-9]+"
             maxLength="30"
             id="inputStreet"
+            onKeyPress={alphaNumericOnly}
             required
           />
           <div className="valid-feedback d-block">Valid street name!</div>
@@ -37,7 +49,7 @@ function App() {
             placeholder="1"
             id="inputNumber"
             data-maxlength="5"
-            onInput={maxLengthFive}
+            onInput={maxLength}
             required
           />
           <div className="invalid-feedback d-block">Please enter a number.</div>
