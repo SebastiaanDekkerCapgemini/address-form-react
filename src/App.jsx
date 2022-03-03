@@ -1,4 +1,13 @@
+import { useState } from 'react'
+
 function App() {
+  const [streetname, setStreetname] = useState('')
+  const [houseNumber, setHouseNumber] = useState('')
+  const [houseNumberAdditional, setHouseNumberAdditional] = useState('')
+  const [city, setCity] = useState('')
+  const [postalCode, setPostalCode] = useState('')
+  const [additionalInfo, setAdditionalInfo] = useState('')
+
   const maxLength = (event) => {
     event.target.value = event.target.value.slice(
       0,
@@ -6,7 +15,7 @@ function App() {
     )
   }
   const alphaNumericOnly = (event) => {
-    const requiredRegex = new RegExp('^[a-zA-Z0-9]+$')
+    const requiredRegex = new RegExp('^[a-zA-Z0-9 ]+$')
     var str = String.fromCharCode(
       !event.charCode ? event.which : event.charCode
     )
@@ -21,7 +30,27 @@ function App() {
       <header>
         <h1 className="h2 mb-4">Address Form</h1>
       </header>
-      <form className="row g-3">
+      <form
+        className="row g-3"
+        action=""
+        onSubmit={(e) => {
+          console.log(
+            'streetname:',
+            streetname,
+            'house number:',
+            houseNumber,
+            'number additional:',
+            houseNumberAdditional,
+            'city:',
+            city,
+            'postal code:',
+            postalCode,
+            'additional info:',
+            additionalInfo
+          )
+          e.preventDefault()
+        }}
+      >
         <div className="col-md-6">
           <label forhtml="inputStreet" className="form-label">
             Street address
@@ -33,6 +62,7 @@ function App() {
             maxLength="30"
             id="inputStreet"
             onKeyPress={alphaNumericOnly}
+            onChange={(e) => setStreetname(e.target.value)}
             required
           />
           <div className="valid-feedback d-block">Valid street name!</div>
@@ -50,6 +80,7 @@ function App() {
             id="inputNumber"
             data-maxlength="5"
             onInput={maxLength}
+            onChange={(e) => setHouseNumber(e.target.value)}
             required
           />
           <div className="invalid-feedback d-block">Please enter a number.</div>
@@ -66,6 +97,7 @@ function App() {
             maxLength="5"
             id="inputNumberAddition"
             onKeyPress={alphaNumericOnly}
+            onChange={(e) => setHouseNumberAdditional(e.target.value)}
           />
         </div>
         <div className="col-md-6">
@@ -78,17 +110,19 @@ function App() {
             maxLength="30"
             id="inputCity"
             onKeyPress={alphaNumericOnly}
+            onChange={(e) => setCity(e.target.value)}
             required
           />
         </div>
         <div className="col-md-3">
           <label forhtml="inputZip" className="form-label">
-            Zip
+            Postal code
           </label>
           <input
             className="form-control"
             placeholder="1000 AB"
             id="inputZip"
+            onChange={(e) => setPostalCode(e.target.value)}
             required
           />
         </div>
@@ -105,6 +139,7 @@ function App() {
             maxLength="50"
             id="inputAdditional"
             onKeyPress={alphaNumericOnly}
+            onChange={(e) => setAdditionalInfo(e.target.value)}
           ></textarea>
         </div>
         <div className="col-12">
