@@ -1,4 +1,10 @@
 function App() {
+  const maxLengthFive = (event) => {
+    event.target.value = event.target.value.slice(
+      0,
+      event.target.dataset.maxlength
+    )
+  }
   return (
     <div className="container-md border bg-light p-3 mt-5">
       <header>
@@ -12,6 +18,7 @@ function App() {
           <input
             className="form-control is-valid"
             placeholder="Street name"
+            pattern="[a-zA-Z0-9]+"
             maxLength="30"
             id="inputStreet"
             required
@@ -23,10 +30,14 @@ function App() {
             House number
           </label>
           <input
+            type="number"
+            min="1"
+            max="99999"
             className="form-control is-invalid"
-            placeholder="11"
-            maxLength="5"
+            placeholder="1"
             id="inputNumber"
+            data-maxlength="5"
+            onInput={maxLengthFive}
             required
           />
           <div className="invalid-feedback d-block">Please enter a number.</div>
