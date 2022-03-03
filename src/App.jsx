@@ -1,43 +1,103 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
-
 function App() {
-  const [count, setCount] = useState(0)
-
+  const maxLengthFive = (event) => {
+    event.target.value = event.target.value.slice(
+      0,
+      event.target.dataset.maxlength
+    )
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
+    <div className="container-md border bg-light p-3 mt-5">
+      <header>
+        <h1 className="h2 mb-4">Address Form</h1>
       </header>
+      <form className="row g-3">
+        <div className="col-md-6">
+          <label forhtml="inputStreet" className="form-label">
+            Street address
+          </label>
+          <input
+            className="form-control is-valid"
+            placeholder="Street name"
+            pattern="[a-zA-Z0-9]+"
+            maxLength="30"
+            id="inputStreet"
+            required
+          />
+          <div className="valid-feedback d-block">Valid street name!</div>
+        </div>
+        <div className="col-6 col-md-3">
+          <label forhtml="inputNumber" className="form-label">
+            House number
+          </label>
+          <input
+            type="number"
+            min="1"
+            max="99999"
+            className="form-control is-invalid"
+            placeholder="1"
+            id="inputNumber"
+            data-maxlength="5"
+            onInput={maxLengthFive}
+            required
+          />
+          <div className="invalid-feedback d-block">Please enter a number.</div>
+        </div>
+        <div className="col-6 col-md-3">
+          <label forhtml="inputNumberAddition" className="form-label">
+            Apt, suite
+            <small className="ms-1 text-secondary">
+              <em>(optional)</em>
+            </small>
+          </label>
+          <input
+            className="form-control"
+            maxLength="5"
+            id="inputNumberAddition"
+          />
+        </div>
+        <div className="col-md-6">
+          <label forhtml="inputCity" className="form-label">
+            City
+          </label>
+          <input
+            className="form-control"
+            placeholder="City name"
+            maxLength="30"
+            id="inputCity"
+            required
+          />
+        </div>
+        <div className="col-md-3">
+          <label forhtml="inputZip" className="form-label">
+            Zip
+          </label>
+          <input
+            className="form-control"
+            placeholder="1000 AB"
+            id="inputZip"
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label forhtml="inputAdditional" className="form-label">
+            Additional information
+            <small className="ms-1 text-secondary">
+              <em>(optional)</em>
+            </small>
+          </label>
+          <textarea
+            className="form-control"
+            rows="2"
+            maxLength="50"
+            id="inputAdditional"
+          ></textarea>
+        </div>
+        <div className="col-12">
+          <button type="submit" className="btn btn-primary">
+            Submit Address
+          </button>
+        </div>
+      </form>
     </div>
   )
 }
