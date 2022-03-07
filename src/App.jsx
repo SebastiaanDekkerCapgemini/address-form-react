@@ -11,6 +11,7 @@ function App() {
   const [showModal, setShowModal] = useState(false)
   const [allFieldsValid, setAllFieldsValid] = useState(false)
 
+  // max length for number elements
   const maxLength = (event) => {
     event.target.value = event.target.value.slice(
       0,
@@ -18,11 +19,13 @@ function App() {
     )
   }
 
+  // alphanumeric characters only
   const alphaNumericOnly = (event) => {
     const requiredRegex = new RegExp('^[a-zA-Z0-9 ]+$')
-    var str = String.fromCharCode(
+    const str = String.fromCharCode(
       !event.charCode ? event.which : event.charCode
     )
+
     if (requiredRegex.test(str)) {
       return true
     }
@@ -30,6 +33,23 @@ function App() {
     return false
   }
 
+  // remove valid/invalid class if present
+  const removeValidationClass = (event) => {
+    const currentElement = event.target
+
+    if (currentElement.classList.contains('is-invalid')) {
+      currentElement.classList.remove('is-invalid')
+    } else if (currentElement.classList.contains('is-valid')) {
+      currentElement.classList.remove('is-valid')
+    }
+  }
+
+  // hide the modal
+  const hideModal = () => {
+    setShowModal(false)
+  }
+
+  // handle the data on submit form
   const handleSubmit = (event) => {
     event.preventDefault()
 
@@ -53,19 +73,6 @@ function App() {
     if (allFieldsValidCheck) {
       setShowModal(true)
     }
-  }
-
-  const removeValidationClass = (event) => {
-    const currentElement = event.target
-    if (currentElement.classList.contains('is-invalid')) {
-      currentElement.classList.remove('is-invalid')
-    } else if (currentElement.classList.contains('is-valid')) {
-      currentElement.classList.remove('is-valid')
-    }
-  }
-
-  const hideModal = () => {
-    setShowModal(false)
   }
 
   return (
