@@ -42,6 +42,16 @@ function App() {
     })
   }
 
+  const removeValidationClass = (event) => {
+    const currentElement = event.target
+    if (currentElement.classList.contains('is-invalid')) {
+      currentElement.classList.remove('is-invalid')
+    }
+    if (currentElement.classList.contains('is-valid')) {
+      currentElement.classList.remove('is-valid')
+    }
+  }
+
   return (
     <div className="container-md border bg-light p-3 mt-5">
       <header>
@@ -64,7 +74,11 @@ function App() {
             maxLength="30"
             id="inputStreet"
             onKeyPress={alphaNumericOnly}
-            onChange={(event) => setStreetname(event.target.value)}
+            onChange={(event) => {
+              removeValidationClass(event)
+              setStreetname(event.target.value)
+            }}
+            // onChange={(event) => setStreetname(event.target.value)}
           />
           <div className="valid-feedback">Valid street name!</div>
           <div className="invalid-feedback">
@@ -84,7 +98,10 @@ function App() {
             id="inputNumber"
             data-maxlength="5"
             onInput={maxLength}
-            onChange={(event) => setHouseNumber(event.target.value)}
+            onChange={(event) => {
+              removeValidationClass(event)
+              setHouseNumber(event.target.value)
+            }}
           />
           <div className="valid-feedback">Valid House number!</div>
           <div className="invalid-feedback">Please enter a number.</div>
@@ -114,7 +131,10 @@ function App() {
             maxLength="30"
             id="inputCity"
             onKeyPress={alphaNumericOnly}
-            onChange={(event) => setCity(event.target.value)}
+            onChange={(event) => {
+              removeValidationClass(event)
+              setCity(event.target.value)
+            }}
           />
           <div className="valid-feedback">Valid City!</div>
           <div className="invalid-feedback">Please provide your City name.</div>
@@ -127,7 +147,10 @@ function App() {
             className="form-control needs-validation"
             placeholder="1000 AB"
             id="inputZip"
-            onChange={(event) => setPostalCode(event.target.value)}
+            onChange={(event) => {
+              removeValidationClass(event)
+              setPostalCode(event.target.value)
+            }}
           />
           <div className="valid-feedback">Valid Postal code!</div>
           <div className="invalid-feedback">Please provide a Postal code.</div>
