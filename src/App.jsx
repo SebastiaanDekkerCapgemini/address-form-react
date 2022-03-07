@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import './App.css'
 
 function App() {
   const [streetname, setStreetname] = useState('')
@@ -7,6 +8,7 @@ function App() {
   const [city, setCity] = useState('')
   const [postalCode, setPostalCode] = useState('')
   const [additionalInfo, setAdditionalInfo] = useState('')
+  const [showModal, setShowModal] = useState(false)
 
   const maxLength = (event) => {
     event.target.value = event.target.value.slice(
@@ -35,11 +37,13 @@ function App() {
     requiredFields.forEach((element) => {
       if (element.value == '') {
         element.classList.add('is-invalid')
-        event.preventDefault()
       } else {
         element.classList.add('is-valid')
       }
     })
+    event.preventDefault()
+
+    setShowModal(true)
   }
 
   const removeValidationClass = (event) => {
@@ -50,6 +54,10 @@ function App() {
     if (currentElement.classList.contains('is-valid')) {
       currentElement.classList.remove('is-valid')
     }
+  }
+
+  const hideModal = () => {
+    setShowModal(false)
   }
 
   return (
@@ -70,7 +78,7 @@ function App() {
           <input
             className="form-control needs-validation"
             placeholder="Street name"
-            pattern="[a-zA-Z0-9]+"
+            pattern="[a-zA-Z0-9 ]+"
             maxLength="30"
             id="inputStreet"
             onKeyPress={alphaNumericOnly}
@@ -78,7 +86,6 @@ function App() {
               removeValidationClass(event)
               setStreetname(event.target.value)
             }}
-            // onChange={(event) => setStreetname(event.target.value)}
           />
           <div className="valid-feedback">Valid street name!</div>
           <div className="invalid-feedback">
@@ -177,6 +184,50 @@ function App() {
           </button>
         </div>
       </form>
+      <div
+        className={'modal fade ' + (showModal ? 'show' : '')}
+        id="outputModal"
+        tabIndex="-1"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">Address Form Input</h5>
+              <button
+                type="button"
+                className="btn-close"
+                onClick={hideModal}
+              ></button>
+            </div>
+            <div className="modal-body">
+              <ul className="list-unstyled">
+                <li className="text-secondary">
+                  <small>Additional information</small>
+                </li>
+                <li className="mb-3">{additionalInfo}</li>
+                <li className="text-secondary">
+                  <small>Address</small>
+                </li>
+                <li>
+                  {streetname} {houseNumber} {houseNumberAdditional}
+                </li>
+                <li>
+                  {postalCode} {city}
+                </li>
+              </ul>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={hideModal}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
