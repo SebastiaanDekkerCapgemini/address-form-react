@@ -9,6 +9,7 @@ function App() {
   const [postalCode, setPostalCode] = useState('')
   const [additionalInfo, setAdditionalInfo] = useState('')
   const [showModal, setShowModal] = useState(false)
+  const [allFieldsValid, setAllFieldsValid] = useState(false)
 
   const maxLength = (event) => {
     event.target.value = event.target.value.slice(
@@ -30,10 +31,11 @@ function App() {
   }
 
   const handleSubmit = (event) => {
+    event.preventDefault()
+
     const requiredFields = document
       .getElementById('address-form')
       .querySelectorAll('.needs-validation')
-
     requiredFields.forEach((element) => {
       if (element.value == '') {
         element.classList.add('is-invalid')
@@ -41,17 +43,23 @@ function App() {
         element.classList.add('is-valid')
       }
     })
-    event.preventDefault()
 
-    setShowModal(true)
+    const requiredFieldsArray = Array.from(requiredFields)
+    const allFieldsValidCheck = requiredFieldsArray.every((element) =>
+      element.value == '' ? false : true
+    )
+
+    setAllFieldsValid(allFieldsValidCheck)
+    if (allFieldsValidCheck) {
+      setShowModal(true)
+    }
   }
 
   const removeValidationClass = (event) => {
     const currentElement = event.target
     if (currentElement.classList.contains('is-invalid')) {
       currentElement.classList.remove('is-invalid')
-    }
-    if (currentElement.classList.contains('is-valid')) {
+    } else if (currentElement.classList.contains('is-valid')) {
       currentElement.classList.remove('is-valid')
     }
   }
@@ -185,7 +193,9 @@ function App() {
         </div>
       </form>
       <div
-        className={'modal fade ' + (showModal ? 'show' : '')}
+        className={
+          'modal fade bg-dark bg-opacity-25 ' + (showModal ? 'show' : '')
+        }
         id="outputModal"
         tabIndex="-1"
       >
