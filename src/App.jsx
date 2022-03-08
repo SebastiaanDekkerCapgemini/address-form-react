@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import './App.css'
+import FormContainer from './Components/FormContainer'
+import Header from './Components/Header'
 
 function App() {
   const [streetname, setStreetname] = useState('')
@@ -125,10 +127,8 @@ function App() {
   }
 
   return (
-    <div className="container-md border bg-light p-3 mt-5">
-      <header>
-        <h1 className="h2 mb-4">Address Form</h1>
-      </header>
+    <FormContainer>
+      <Header />
       <form
         id="address-form"
         className="row g-3"
@@ -295,7 +295,7 @@ function App() {
           </div>
         </div>
       </div>
-    </div>
+    </FormContainer>
   )
 }
 
