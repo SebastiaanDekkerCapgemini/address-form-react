@@ -2,6 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import FormContainer from './Components/FormContainer'
 import Header from './Components/Header'
+import Modal from './Components/Modal'
 
 function App() {
   const [streetname, setStreetname] = useState('')
@@ -79,11 +80,6 @@ function App() {
     } else {
       element.classList.add('is-valid')
     }
-  }
-
-  // hide the modal
-  const hideModal = () => {
-    setShowModal(false)
   }
 
   // handle the data when submitting the form
@@ -249,52 +245,17 @@ function App() {
           </button>
         </div>
       </form>
-      <div
-        className={
-          'modal fade bg-dark bg-opacity-25 ' + (showModal ? 'show' : '')
-        }
-        id="outputModal"
-        tabIndex="-1"
-      >
-        <div className="modal-dialog">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title">Address Form Input</h5>
-              <button
-                type="button"
-                className="btn-close"
-                onClick={hideModal}
-              ></button>
-            </div>
-            <div className="modal-body">
-              <ul className="list-unstyled">
-                <li className="text-secondary">
-                  <small>Additional information</small>
-                </li>
-                <li className="mb-3">{additionalInfo}</li>
-                <li className="text-secondary">
-                  <small>Address</small>
-                </li>
-                <li>
-                  {streetname} {houseNumber} {houseNumberAdditional}
-                </li>
-                <li>
-                  {postalCode} {city}
-                </li>
-              </ul>
-            </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={hideModal}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+
+      <Modal
+        streetname={streetname}
+        houseNumber={houseNumber}
+        houseNumberAdditional={houseNumberAdditional}
+        city={city}
+        postalCode={postalCode}
+        additionalInfo={additionalInfo}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
     </FormContainer>
   )
 }
