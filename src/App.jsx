@@ -11,7 +11,7 @@ function App() {
   const [showModal, setShowModal] = useState(false)
   const [allFieldsValid, setAllFieldsValid] = useState(false)
 
-  // max length for number elements
+  // max length for number input elements
   const maxLength = (event) => {
     event.target.value = event.target.value.slice(
       0,
@@ -25,7 +25,7 @@ function App() {
     const str = String.fromCharCode(
       !event.charCode ? event.which : event.charCode
     )
-
+    // test if current typed character complies to allowed characters
     if (requiredRegex.test(str)) {
       return true
     }
@@ -33,14 +33,49 @@ function App() {
     return false
   }
 
+  // postal code validation
+  const postalCodeValidation = () => {
+    const postalCodeRegex = /^[1-9][0-9]{3} ?(?!sa|sd|ss)[a-z]{2}$/i
+    const postalCodeElement = document.getElementById('inputPostalCode')
+
+    // test if current postal code complies to allowed dutch character-pattern
+    if (postalCodeRegex.test(postalCode)) {
+      toggleValidationClass(postalCodeElement, true, true)
+      // add space to postal code input and change to uppercase
+      if (postalCode.length === 6) {
+        const spacedPostalCode =
+          postalCode.substring(0, 4) +
+          ' ' +
+          postalCode.substring(4, postalCode.length)
+        const upperCasePostalCode = spacedPostalCode.toUpperCase()
+        setPostalCode(upperCasePostalCode)
+      }
+      return true
+    } else {
+      toggleValidationClass(postalCodeElement, true, false)
+      return false
+    }
+  }
+
   // remove valid/invalid class if present
   const removeValidationClass = (event) => {
-    const currentElement = event.target
+    const elementClassList = event.target.classList
 
-    if (currentElement.classList.contains('is-invalid')) {
-      currentElement.classList.remove('is-invalid')
-    } else if (currentElement.classList.contains('is-valid')) {
-      currentElement.classList.remove('is-valid')
+    if (elementClassList.contains('is-invalid')) {
+      elementClassList.remove('is-invalid')
+    } else if (elementClassList.contains('is-valid')) {
+      elementClassList.remove('is-valid')
+    }
+  }
+
+  // toggle validation class
+  const toggleValidationClass = (element, isUniqueValidationField, valid) => {
+    if (element.value == '' && !isUniqueValidationField) {
+      element.classList.add('is-invalid')
+    } else if (isUniqueValidationField && !valid) {
+      element.classList.add('is-invalid')
+    } else {
+      element.classList.add('is-valid')
     }
   }
 
@@ -49,30 +84,44 @@ function App() {
     setShowModal(false)
   }
 
-  // handle the data on submit form
+  // handle the data when submitting the form
   const handleSubmit = (event) => {
+    let allFieldsValid
+    postalCodeValidation()
     event.preventDefault()
 
+    // toggle validation class on all basic required fields
     const requiredFields = document
       .getElementById('address-form')
       .querySelectorAll('.needs-validation')
     requiredFields.forEach((element) => {
-      if (element.value == '') {
-        element.classList.add('is-invalid')
-      } else {
-        element.classList.add('is-valid')
-      }
+      toggleValidationClass(element)
     })
 
-    const requiredFieldsArray = Array.from(requiredFields)
-    const allFieldsValidCheck = requiredFieldsArray.every((element) =>
+    // turn notelist into array and check if every basic required fields are filled
+    const basicFieldsValidCheck = Array.from(requiredFields).every((element) =>
       element.value == '' ? false : true
     )
 
-    setAllFieldsValid(allFieldsValidCheck)
-    if (allFieldsValidCheck) {
+    if (postalCodeValidation() && basicFieldsValidCheck) {
+      allFieldsValid = true
+    } else {
+      allFieldsValid = false
+    }
+
+    if (allFieldsValid) {
       setShowModal(true)
     }
+
+    // works after pressing submit button 2 times, is it because of the react lifecycle of components?
+    // if (postalCodeValidation() && basicFieldsValidCheck) {
+    //   setAllFieldsValid(true)
+    // } else {
+    //   setAllFieldsValid(false)
+    // }
+    // if (allFieldsValid) {
+    //   setShowModal(true)
+    // }
   }
 
   return (
@@ -166,9 +215,10 @@ function App() {
             Postal code
           </label>
           <input
-            className="form-control needs-validation"
+            className="form-control"
             placeholder="1000 AB"
-            id="inputZip"
+            value={postalCode}
+            id="inputPostalCode"
             onChange={(event) => {
               removeValidationClass(event)
               setPostalCode(event.target.value)
